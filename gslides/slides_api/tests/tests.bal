@@ -34,3 +34,17 @@ function testCreateSlides() {
         test:assertFail(msg = <string>slidesRes.detail().message);
     }
 }
+
+@test:Config {
+    dependsOn: ["testCreateSlides"]
+}
+function testOpenSlidesById() {
+    io:println("-----------------Test case for openSlidesById method------------------");
+    var slidesRes = slidesClient->openSlidesById(testSlides.presentationId);
+    if (slidesRes is Slides) {
+        testSlides = slidesRes;
+        test:assertNotEquals(slidesRes.presentationId, null, msg = "Failed to open the presentation");
+    } else {
+        test:assertFail(msg = <string>slidesRes.detail().message);
+    }
+}
